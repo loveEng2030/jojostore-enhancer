@@ -126,6 +126,21 @@ function MerchantsPage() {
       setMessage(t("eg.error"));
       return;
     }
+    const lines = [
+      "طلب تاجر جديد — JOJO Store",
+      `الاسم: ${form.full_name.trim()}`,
+      `الموبايل: ${form.phone.trim()}`,
+      form.store_name.trim() && `المحل / الصفحة: ${form.store_name.trim()}`,
+      form.governorate && `المحافظة: ${form.governorate}`,
+      form.business_type && `نوع النشاط: ${form.business_type}`,
+      form.interests.length && `الأقسام المطلوبة: ${form.interests.join("، ")}`,
+      form.monthly_volume.trim() &&
+        `الكمية الشهرية: ${form.monthly_volume.trim()}`,
+      form.notes.trim() && `اللي محتاجه: ${form.notes.trim()}`,
+    ].filter(Boolean) as string[];
+    const waSend = waLink(lines.join("\n"));
+    setSentWa(waSend);
+    window.open(waSend, "_blank", "noreferrer");
     setStatus("done");
     setMessage(t("eg.success"));
     setForm({
