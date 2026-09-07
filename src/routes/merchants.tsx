@@ -381,6 +381,17 @@ function MerchantsPage() {
               {message}
             </p>
           )}
+
+          {status === "done" && sentWa && (
+            <a
+              href={sentWa}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-3 block rounded-full bg-card px-7 py-3 text-center text-sm font-bold text-primary ring-1 ring-border transition-colors hover:bg-muted"
+            >
+              إرسال البيانات على واتساب
+            </a>
+          )}
         </form>
       </div>
     </div>
