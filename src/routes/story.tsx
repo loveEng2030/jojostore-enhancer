@@ -26,6 +26,7 @@ export const Route = createFileRoute("/story")({
 
 function StoryPage() {
   const { t } = useI18n();
+  const poster = useSiteImage("story.image");
 
   const values = [
     { icon: HeartHandshake, title: t("story.v1"), body: t("story.v1b") },
