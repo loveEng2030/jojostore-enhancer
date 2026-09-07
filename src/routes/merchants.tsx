@@ -86,6 +86,7 @@ function MerchantsPage() {
     "idle",
   );
   const [message, setMessage] = useState("");
+  const [sentWa, setSentWa] = useState("");
 
   const facts = [
     { icon: Package, label: t("eg.moq"), value: t("eg.moqValue") },
