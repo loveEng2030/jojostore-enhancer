@@ -68,6 +68,108 @@ export type Database = {
         }
         Relationships: []
       }
+      site_categories: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          name_en: string
+          section_id: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          name: string
+          name_en?: string
+          section_id: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          name_en?: string
+          section_id?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          created_at: string
+          key: string
+          updated_at: string
+          value_ar: string
+          value_en: string
+        }
+        Insert: {
+          created_at?: string
+          key: string
+          updated_at?: string
+          value_ar?: string
+          value_en?: string
+        }
+        Update: {
+          created_at?: string
+          key?: string
+          updated_at?: string
+          value_ar?: string
+          value_en?: string
+        }
+        Relationships: []
+      }
+      site_images: {
+        Row: {
+          created_at: string
+          key: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          key: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          key?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      site_sections: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          name_en: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          name: string
+          name_en?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          name_en?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
