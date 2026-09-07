@@ -8,7 +8,9 @@ import { useI18n, type TKey } from "@/lib/i18n";
 const links: { to: string; key: TKey }[] = [
   { to: "/", key: "nav.home" },
   { to: "/catalog", key: "nav.catalog" },
+  { to: "/merchants", key: "nav.egypt" },
   { to: "/b2b", key: "nav.b2b" },
+
   { to: "/story", key: "nav.story" },
   { to: "/faq", key: "nav.faq" },
   { to: "/contact", key: "nav.contact" },
