@@ -19,7 +19,9 @@ const dict = {
 
   "nav.home": ["الرئيسية", "Home"],
   "nav.catalog": ["الكتالوج", "Catalog"],
-  "nav.b2b": ["B2B توريد", "B2B Supply"],
+  "nav.b2b": ["تصدير خارجي", "Export"],
+  "nav.egypt": ["تجار مصر", "Egypt Merchants"],
+
   "nav.story": ["قصتنا", "Our Story"],
   "nav.faq": ["FAQ", "FAQ"],
   "nav.contact": ["تواصل", "Contact"],
