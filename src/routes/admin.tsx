@@ -130,7 +130,18 @@ function LoginCard({ onDone }: { onDone: () => Promise<void> }) {
   );
 }
 
+type Tab = "products" | "texts" | "images" | "taxonomy";
+
+const tabs: { id: Tab; label: string }[] = [
+  { id: "products", label: "المنتجات" },
+  { id: "texts", label: "نصوص الموقع" },
+  { id: "images", label: "صور الموقع" },
+  { id: "taxonomy", label: "الأقسام والتصنيفات" },
+];
+
 function Dashboard({ onSignOut }: { onSignOut: () => Promise<void> }) {
+  const { sections, categories } = useTaxonomy();
+  const [tab, setTab] = useState<Tab>("products");
   const [list, setList] = useState<CatalogProduct[]>([]);
   const [hidden, setHidden] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
@@ -139,11 +150,15 @@ function Dashboard({ onSignOut }: { onSignOut: () => Promise<void> }) {
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [nameEn, setNameEn] = useState("");
-  const [categoryId, setCategoryId] = useState(categories[0]!.id);
+  const [categoryId, setCategoryId] = useState("");
   const [colors, setColors] = useState<string[]>([]);
   const [sizes, setSizes] = useState("");
   const [isNew, setIsNew] = useState(true);
   const [file, setFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    if (!categoryId && categories[0]) setCategoryId(categories[0].id);
+  }, [categories, categoryId]);
 
   const reload = async () => {
     setList(await fetchCatalog());
