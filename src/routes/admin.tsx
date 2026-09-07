@@ -2,7 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Loader2, LogOut, Plus, Trash2, RotateCcw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { allColors, categories, colorHex, products as staticProducts, sections } from "@/lib/data";
+import { allColors, colorHex, products as staticProducts } from "@/lib/data";
+import { useTaxonomy } from "@/lib/site-content";
+import { TextsPanel } from "@/components/admin/TextsPanel";
+import { ImagesPanel } from "@/components/admin/ImagesPanel";
+import { TaxonomyPanel } from "@/components/admin/TaxonomyPanel";
 import {
   fetchCatalog,
   fetchHiddenCodes,
