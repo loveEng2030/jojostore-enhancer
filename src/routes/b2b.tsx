@@ -46,6 +46,13 @@ function B2BPage() {
       <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
         {t("b2b.subtitle")}
       </p>
+      <p className="mt-3 text-sm text-muted-foreground">
+        {t("b2b.localNote")}{" "}
+        <Link to="/merchants" className="font-bold text-primary underline">
+          {t("nav.egypt")}
+        </Link>
+      </p>
+
 
       <div className="mt-10 grid gap-4 sm:grid-cols-3">
         {facts.map((f) => (
