@@ -360,6 +360,8 @@ function Dashboard({ onSignOut }: { onSignOut: () => Promise<void> }) {
           </div>
         </>
       )}
+        </>
+      )}
     </div>
   );
 }
