@@ -291,6 +291,10 @@ const dict = {
 
 export type TKey = keyof typeof dict;
 
+/** All editable site texts with their default Arabic / English values. */
+export const textDefaults = dict as Record<string, Entry>;
+export const textKeys = Object.keys(dict) as TKey[];
+
 const colorEn: Record<string, string> = {
   "أحمر": "Red",
   "أزرق": "Blue",
