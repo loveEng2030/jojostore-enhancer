@@ -29,6 +29,48 @@ export type Database = {
         }
         Relationships: []
       }
+      merchant_requests: {
+        Row: {
+          business_type: string
+          created_at: string
+          full_name: string
+          governorate: string
+          id: string
+          interests: string
+          monthly_volume: string
+          notes: string
+          phone: string
+          store_name: string
+          updated_at: string
+        }
+        Insert: {
+          business_type?: string
+          created_at?: string
+          full_name: string
+          governorate?: string
+          id?: string
+          interests?: string
+          monthly_volume?: string
+          notes?: string
+          phone: string
+          store_name?: string
+          updated_at?: string
+        }
+        Update: {
+          business_type?: string
+          created_at?: string
+          full_name?: string
+          governorate?: string
+          id?: string
+          interests?: string
+          monthly_volume?: string
+          notes?: string
+          phone?: string
+          store_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           category_id: string
