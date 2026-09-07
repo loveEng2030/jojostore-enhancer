@@ -15,6 +15,7 @@ import { Route as B2bRouteImport } from './routes/b2b'
 import { Route as CatalogRouteImport } from './routes/catalog'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as MerchantsRouteImport } from './routes/merchants'
 import { Route as StoryRouteImport } from './routes/story'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,11 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MerchantsRoute = MerchantsRouteImport.update({
+  id: '/merchants',
+  path: '/merchants',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StoryRoute = StoryRouteImport.update({
   id: '/story',
   path: '/story',
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/catalog': typeof CatalogRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/merchants': typeof MerchantsRoute
   '/story': typeof StoryRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/catalog': typeof CatalogRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/merchants': typeof MerchantsRoute
   '/story': typeof StoryRoute
 }
 export interface FileRoutesById {
@@ -79,14 +87,30 @@ export interface FileRoutesById {
   '/catalog': typeof CatalogRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/merchants': typeof MerchantsRoute
   '/story': typeof StoryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/admin' | '/b2b' | '/catalog' | '/contact' | '/faq' | '/story'
+    | '/'
+    | '/admin'
+    | '/b2b'
+    | '/catalog'
+    | '/contact'
+    | '/faq'
+    | '/merchants'
+    | '/story'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/b2b' | '/catalog' | '/contact' | '/faq' | '/story'
+  to:
+    | '/'
+    | '/admin'
+    | '/b2b'
+    | '/catalog'
+    | '/contact'
+    | '/faq'
+    | '/merchants'
+    | '/story'
   id:
     | '__root__'
     | '/'
@@ -95,6 +119,7 @@ export interface FileRouteTypes {
     | '/catalog'
     | '/contact'
     | '/faq'
+    | '/merchants'
     | '/story'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +130,7 @@ export interface RootRouteChildren {
   CatalogRoute: typeof CatalogRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
+  MerchantsRoute: typeof MerchantsRoute
   StoryRoute: typeof StoryRoute
 }
 
@@ -152,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/merchants': {
+      id: '/merchants'
+      path: '/merchants'
+      fullPath: '/merchants'
+      preLoaderRoute: typeof MerchantsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/story': {
       id: '/story'
       path: '/story'
@@ -169,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   CatalogRoute: CatalogRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
+  MerchantsRoute: MerchantsRoute,
   StoryRoute: StoryRoute,
 }
 export const routeTree = rootRouteImport
