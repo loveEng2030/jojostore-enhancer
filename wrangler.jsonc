@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "jojostorefinally",
+  "main": ".output/server/index.mjs",
+  "compatibility_date": "2026-09-03",
+  "assets": {
+    "directory": ".output/public"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
