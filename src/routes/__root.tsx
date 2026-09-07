@@ -11,6 +11,12 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { Header } from "@/components/site/Header";
+import { Footer } from "@/components/site/Footer";
+import { WhatsAppFloat } from "@/components/site/WhatsAppFloat";
+import { I18nProvider } from "@/lib/i18n";
+import { SiteContentProvider } from "@/lib/site-content";
+
 
 function NotFoundComponent() {
   return (
@@ -77,21 +83,31 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "JOJO Store — جملة الملابس بأناقة وأسعار المصنع" },
+      {
+        name: "description",
+        content:
+          "جوجو ستورز — جملة الملابس الحريمي والرجالي والأطفال والهوم وير والكاجوال بخامات مختارة وكميات جملة، مع شحن لكل محافظات مصر.",
+      },
+      { name: "author", content: "JOJO Store" },
+      { property: "og:title", content: "JOJO Store — جملة الملابس بأناقة وأسعار المصنع" },
+      {
+        property: "og:description",
+        content:
+          "تشكيلات حريمي ورجالي وأطفال وهوم وير وكاجوال بكميات جملة تناسب المحلات والموزعين، مع شحن لكل محافظات مصر.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,
@@ -102,7 +118,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="ar" dir="rtl">
       <head>
         <HeadContent />
       </head>
@@ -119,8 +135,18 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <SiteContentProvider>
+        <I18nProvider>
+          <Header />
+          <main>
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </main>
+          <Footer />
+          <WhatsAppFloat />
+        </I18nProvider>
+      </SiteContentProvider>
     </QueryClientProvider>
+
   );
 }
