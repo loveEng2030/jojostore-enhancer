@@ -236,7 +236,7 @@ function Dashboard({ onSignOut }: { onSignOut: () => Promise<void> }) {
   return (
     <div className="mx-auto max-w-5xl px-4 pb-16 pt-32">
       <div className="flex items-center justify-between gap-4">
-        <h1 className="font-heading text-3xl font-extrabold">لوحة تحكم الكتالوج</h1>
+        <h1 className="font-heading text-3xl font-extrabold">لوحة تحكم الموقع</h1>
         <button
           type="button"
           onClick={signOut}
@@ -246,6 +246,41 @@ function Dashboard({ onSignOut }: { onSignOut: () => Promise<void> }) {
         </button>
       </div>
 
+      <div className="mt-6 flex flex-wrap gap-2">
+        {tabs.map((tb) => (
+          <button
+            key={tb.id}
+            type="button"
+            onClick={() => setTab(tb.id)}
+            className={`rounded-full px-4 py-2 text-sm font-bold ${
+              tab === tb.id
+                ? "bg-primary text-primary-foreground"
+                : "border border-border hover:bg-muted"
+            }`}
+          >
+            {tb.label}
+          </button>
+        ))}
+      </div>
+
+      {tab === "texts" && (
+        <div className="mt-8">
+          <TextsPanel />
+        </div>
+      )}
+      {tab === "images" && (
+        <div className="mt-8">
+          <ImagesPanel />
+        </div>
+      )}
+      {tab === "taxonomy" && (
+        <div className="mt-8">
+          <TaxonomyPanel />
+        </div>
+      )}
+
+      {tab === "products" && (
+        <>
       <form onSubmit={addProduct} className="mt-8 space-y-4 rounded-3xl bg-card p-6 ring-1 ring-border">
         <h2 className="font-heading text-xl font-bold">إضافة منتج جديد</h2>
         <div className="grid gap-3 md:grid-cols-2">
