@@ -61,11 +61,11 @@ export function TaxonomyPanel() {
     if (!catSection && sections[0]) setCatSection(sections[0].id);
   }, [sections, catSection]);
 
-  const run = async (fn: () => Promise<{ error: unknown } | void>) => {
+  const run = async (fn: () => unknown) => {
     setBusy(true);
     setError("");
-    const res = await fn();
-    if (res && "error" in res && res.error) setError("مش قادر يحفظ التغيير، جرّب تاني");
+    const res = (await fn()) as { error?: unknown } | null | undefined;
+    if (res && res.error) setError("مش قادر يحفظ التغيير، جرّب تاني");
     await reload();
     setBusy(false);
   };
