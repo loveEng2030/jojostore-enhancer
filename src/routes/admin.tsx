@@ -85,7 +85,7 @@ function LoginCard({ onDone }: { onDone: () => Promise<void> }) {
     setError("");
     const { error: signInError } = await supabase.auth.signInWithPassword({
       email: normalizeEmail(email),
-      password,
+      password: password.trim(),
     });
     if (signInError) setError("بيانات الدخول غير صحيحة");
     else await onDone();
