@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Phone, Clock, MessageCircle } from "lucide-react";
 import { ADDRESS, ADDRESS_EN, PHONE, WA_DEFAULT, WA_B2B } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
+import { SocialLinks } from "@/components/site/SocialLinks";
+
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -90,6 +92,37 @@ function ContactPage() {
           {t("nav.cta")}
         </a>
       </div>
+
+      <div className="mt-10">
+        <h2 className="font-heading text-xl font-extrabold">
+          {t("social.title")}
+        </h2>
+        <SocialLinks className="mt-4" />
+      </div>
+
+      <div className="mt-10">
+        <h2 className="font-heading text-xl font-extrabold">
+          {t("contact.mapTitle")}
+        </h2>
+        <div className="mt-4 overflow-hidden rounded-3xl ring-1 ring-border">
+          <iframe
+            title={t("contact.mapTitle")}
+            src={`https://www.google.com/maps?q=${encodeURIComponent(t("contact.mapQuery"))}&output=embed`}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="h-[360px] w-full border-0"
+          />
+        </div>
+        <a
+          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(t("contact.mapQuery"))}`}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-4 inline-block rounded-full border border-border px-6 py-2.5 text-sm font-bold transition-colors hover:bg-muted"
+        >
+          {t("contact.address")}
+        </a>
+      </div>
     </div>
   );
 }
+
