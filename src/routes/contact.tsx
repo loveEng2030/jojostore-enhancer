@@ -119,7 +119,7 @@ function ContactPage() {
           rel="noreferrer"
           className="mt-4 inline-block rounded-full border border-border px-6 py-2.5 text-sm font-bold transition-colors hover:bg-muted"
         >
-          {t("contact.address")}
+          {t("common.openMap")}
         </a>
       </div>
     </div>
