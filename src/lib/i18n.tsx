@@ -40,6 +40,8 @@ const dict = {
   "common.available": ["متاح", "Available"],
   "common.new": ["جديد", "New"],
   "common.viewImage": ["عرض الصورة كاملة", "View full image"],
+  "common.openMap": ["افتح الخريطة على جوجل", "Open in Google Maps"],
+
   "common.showColor": ["عرض اللون", "Show colour"],
   "common.knowStory": ["اعرف قصتنا", "Read our story"],
   "common.quickLinks": ["روابط سريعة", "Quick links"],
