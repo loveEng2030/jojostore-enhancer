@@ -1,8 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { Phone, MapPin, Lock } from "lucide-react";
+import { Phone, MapPin, Lock, PackagePlus } from "lucide-react";
 import logo from "@/assets/jojo-logo.png";
 import { ADDRESS, ADDRESS_EN, PHONE, WA_DEFAULT } from "@/lib/data";
 import { useI18n, type TKey } from "@/lib/i18n";
+import { SocialLinks } from "@/components/site/SocialLinks";
+
 
 const links: { to: string; key: TKey }[] = [
   { to: "/catalog", key: "nav.catalog" },
@@ -39,6 +41,13 @@ export function Footer() {
           <p className="text-sm leading-relaxed text-muted-foreground">
             {t("footer.about")}
           </p>
+          <div>
+            <p className="mb-2 text-xs font-bold text-muted-foreground">
+              {t("social.title")}
+            </p>
+            <SocialLinks />
+          </div>
+
         </div>
 
         <div>
@@ -96,6 +105,14 @@ export function Footer() {
         >
           <Lock className="h-3.5 w-3.5" />
         </Link>
+        <Link
+          to="/catalog-admin"
+          aria-label="Catalog admin"
+          className="rounded-full p-1.5 text-muted-foreground/50 transition-colors hover:text-primary"
+        >
+          <PackagePlus className="h-3.5 w-3.5" />
+        </Link>
+
       </div>
 
     </footer>
