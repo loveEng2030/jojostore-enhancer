@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as B2bRouteImport } from './routes/b2b'
 import { Route as CatalogRouteImport } from './routes/catalog'
+import { Route as CatalogAdminRouteImport } from './routes/catalog-admin'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as MerchantsRouteImport } from './routes/merchants'
@@ -36,6 +37,11 @@ const B2bRoute = B2bRouteImport.update({
 const CatalogRoute = CatalogRouteImport.update({
   id: '/catalog',
   path: '/catalog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CatalogAdminRoute = CatalogAdminRouteImport.update({
+  id: '/catalog-admin',
+  path: '/catalog-admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/b2b': typeof B2bRoute
   '/catalog': typeof CatalogRoute
+  '/catalog-admin': typeof CatalogAdminRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/merchants': typeof MerchantsRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/b2b': typeof B2bRoute
   '/catalog': typeof CatalogRoute
+  '/catalog-admin': typeof CatalogAdminRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/merchants': typeof MerchantsRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/b2b': typeof B2bRoute
   '/catalog': typeof CatalogRoute
+  '/catalog-admin': typeof CatalogAdminRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/merchants': typeof MerchantsRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/b2b'
     | '/catalog'
+    | '/catalog-admin'
     | '/contact'
     | '/faq'
     | '/merchants'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/b2b'
     | '/catalog'
+    | '/catalog-admin'
     | '/contact'
     | '/faq'
     | '/merchants'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/b2b'
     | '/catalog'
+    | '/catalog-admin'
     | '/contact'
     | '/faq'
     | '/merchants'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   B2bRoute: typeof B2bRoute
   CatalogRoute: typeof CatalogRoute
+  CatalogAdminRoute: typeof CatalogAdminRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
   MerchantsRoute: typeof MerchantsRoute
@@ -162,6 +175,13 @@ declare module '@tanstack/react-router' {
       path: '/catalog'
       fullPath: '/catalog'
       preLoaderRoute: typeof CatalogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalog-admin': {
+      id: '/catalog-admin'
+      path: '/catalog-admin'
+      fullPath: '/catalog-admin'
+      preLoaderRoute: typeof CatalogAdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   B2bRoute: B2bRoute,
   CatalogRoute: CatalogRoute,
+  CatalogAdminRoute: CatalogAdminRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
   MerchantsRoute: MerchantsRoute,

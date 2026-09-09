@@ -40,6 +40,8 @@ const dict = {
   "common.available": ["متاح", "Available"],
   "common.new": ["جديد", "New"],
   "common.viewImage": ["عرض الصورة كاملة", "View full image"],
+  "common.openMap": ["افتح الخريطة على جوجل", "Open in Google Maps"],
+
   "common.showColor": ["عرض اللون", "Show colour"],
   "common.knowStory": ["اعرف قصتنا", "Read our story"],
   "common.quickLinks": ["روابط سريعة", "Quick links"],
@@ -346,6 +348,24 @@ const dict = {
     "السبت - الخميس، 10 ص إلى 8 م",
     "Saturday - Thursday, 10am to 8pm",
   ],
+  "contact.mapTitle": ["مكان المكتب على الخريطة", "Our location on the map"],
+  "contact.mapQuery": [
+    "16 شارع جمال عبد الناصر، حدائق حلوان، القاهرة",
+    "16 Gamal Abdel Nasser St, Hadayek Helwan, Cairo",
+  ],
+
+  "social.title": ["تابعنا على", "Follow us"],
+  "social.facebook": [
+    "https://www.facebook.com/jojostore",
+    "https://www.facebook.com/jojostore",
+  ],
+  "social.instagram": [
+    "https://www.instagram.com/jojostore",
+    "https://www.instagram.com/jojostore",
+  ],
+  "social.telegram": ["https://t.me/jojostore", "https://t.me/jojostore"],
+
+
 
   "cta.title": [
     "جاهز تبدأ توريد منتجات جوجو لمتجرك؟",

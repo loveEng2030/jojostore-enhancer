@@ -18,7 +18,9 @@ const groupLabels: Record<string, string> = {
   faq: "الأسئلة الشائعة",
   contact: "صفحة التواصل",
   footer: "الفوتر",
+  social: "روابط السوشيال (فيسبوك / إنستجرام / تيليجرام)",
 };
+
 
 export function TextsPanel() {
   const { content, reload } = useSiteContent();

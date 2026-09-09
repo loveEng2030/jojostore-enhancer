@@ -1,18 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Loader2, LogOut, Plus, Trash2, RotateCcw } from "lucide-react";
+import { Loader2, LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { allColors, colorHex, products as staticProducts } from "@/lib/data";
-import { useTaxonomy } from "@/lib/site-content";
 import { TextsPanel } from "@/components/admin/TextsPanel";
 import { ImagesPanel } from "@/components/admin/ImagesPanel";
 import { TaxonomyPanel } from "@/components/admin/TaxonomyPanel";
-import {
-  fetchCatalog,
-  fetchHiddenCodes,
-  signedImageUrl,
-  type CatalogProduct,
-} from "@/lib/catalog-store";
+import { ProductsPanel } from "@/components/admin/ProductsPanel";
 
 export const Route = createFileRoute("/admin")({
   ssr: false,
@@ -100,7 +93,7 @@ function LoginCard({ onDone }: { onDone: () => Promise<void> }) {
       >
         <h1 className="font-heading text-2xl font-extrabold">دخول الأدمن</h1>
         <p className="text-sm text-muted-foreground">
-          هذه الصفحة لإدارة منتجات الكتالوج فقط.
+          لوحة التحكم الكاملة: المنتجات والنصوص والصور والأقسام.
         </p>
         <input
           value={email}
@@ -140,93 +133,7 @@ const tabs: { id: Tab; label: string }[] = [
 ];
 
 function Dashboard({ onSignOut }: { onSignOut: () => Promise<void> }) {
-  const { sections, categories } = useTaxonomy();
   const [tab, setTab] = useState<Tab>("products");
-  const [list, setList] = useState<CatalogProduct[]>([]);
-  const [hidden, setHidden] = useState<string[]>([]);
-  const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState("");
-
-  const [code, setCode] = useState("");
-  const [name, setName] = useState("");
-  const [nameEn, setNameEn] = useState("");
-  const [categoryId, setCategoryId] = useState("");
-  const [colors, setColors] = useState<string[]>([]);
-  const [sizes, setSizes] = useState("");
-  const [isNew, setIsNew] = useState(true);
-  const [file, setFile] = useState<File | null>(null);
-
-  useEffect(() => {
-    if (!categoryId && categories[0]) setCategoryId(categories[0].id);
-  }, [categories, categoryId]);
-
-  const reload = async () => {
-    setList(await fetchCatalog());
-    setHidden(await fetchHiddenCodes());
-  };
-
-  useEffect(() => {
-    void reload();
-  }, []);
-
-  const addProduct = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!file || !code.trim() || !name.trim()) {
-      setMessage("املأ الكود والاسم واختر صورة");
-      return;
-    }
-    setBusy(true);
-    setMessage("");
-    try {
-      const ext = file.name.split(".").pop() ?? "jpg";
-      const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-      const { error: upErr } = await supabase.storage
-        .from("product-images")
-        .upload(path, file, { cacheControl: "31536000" });
-      if (upErr) throw upErr;
-      const url = await signedImageUrl(path);
-      const { error: insErr } = await supabase.from("products").insert({
-        code: code.trim(),
-        name: name.trim(),
-        name_en: nameEn.trim() || name.trim(),
-        category_id: categoryId,
-        colors,
-        sizes: sizes
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean),
-        image_url: url,
-        is_new: isNew,
-      });
-      if (insErr) throw insErr;
-      setCode("");
-      setName("");
-      setNameEn("");
-      setColors([]);
-      setSizes("");
-      setFile(null);
-      setMessage("تمت إضافة المنتج");
-      await reload();
-    } catch {
-      setMessage("حصلت مشكلة أثناء الإضافة، جرّب تاني");
-    }
-    setBusy(false);
-  };
-
-  const remove = async (p: CatalogProduct) => {
-    setBusy(true);
-    if (p.dbId) await supabase.from("products").delete().eq("id", p.dbId);
-    else await supabase.from("hidden_products").insert({ code: p.code });
-    await reload();
-    setBusy(false);
-  };
-
-  const restore = async (c: string) => {
-    setBusy(true);
-    await supabase.from("hidden_products").delete().eq("code", c);
-    await reload();
-    setBusy(false);
-  };
 
   const signOut = async () => {
     await supabase.auth.signOut();
@@ -263,105 +170,12 @@ function Dashboard({ onSignOut }: { onSignOut: () => Promise<void> }) {
         ))}
       </div>
 
-      {tab === "texts" && (
-        <div className="mt-8">
-          <TextsPanel />
-        </div>
-      )}
-      {tab === "images" && (
-        <div className="mt-8">
-          <ImagesPanel />
-        </div>
-      )}
-      {tab === "taxonomy" && (
-        <div className="mt-8">
-          <TaxonomyPanel />
-        </div>
-      )}
-
-      {tab === "products" && (
-        <>
-      <form onSubmit={addProduct} className="mt-8 space-y-4 rounded-3xl bg-card p-6 ring-1 ring-border">
-        <h2 className="font-heading text-xl font-bold">إضافة منتج جديد</h2>
-        <div className="grid gap-3 md:grid-cols-2">
-          <input value={code} onChange={(e) => setCode(e.target.value)} placeholder="الكود مثال W-120" className="rounded-2xl border border-border bg-background px-4 py-3 text-sm" />
-          <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className="rounded-2xl border border-border bg-background px-4 py-3 text-sm">
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {sections.find((s) => s.id === c.sectionId)?.name} - {c.name}
-              </option>
-            ))}
-          </select>
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="اسم المنتج بالعربي" className="rounded-2xl border border-border bg-background px-4 py-3 text-sm" />
-          <input value={nameEn} onChange={(e) => setNameEn(e.target.value)} placeholder="الاسم بالإنجليزي (اختياري)" className="rounded-2xl border border-border bg-background px-4 py-3 text-sm" />
-          <input value={sizes} onChange={(e) => setSizes(e.target.value)} placeholder="المقاسات مفصولة بفاصلة: 6, 8, 10" className="rounded-2xl border border-border bg-background px-4 py-3 text-sm" />
-          <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} className="rounded-2xl border border-border bg-background px-4 py-2.5 text-sm" />
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          {allColors.map((c) => (
-            <button
-              key={c}
-              type="button"
-              onClick={() => setColors((v) => (v.includes(c) ? v.filter((x) => x !== c) : [...v, c]))}
-              className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold ${
-                colors.includes(c) ? "bg-primary text-primary-foreground" : "border border-border text-foreground"
-              }`}
-            >
-              <span className="h-3.5 w-3.5 rounded-full ring-1 ring-border" style={{ backgroundColor: colorHex[c] ?? "#ddd" }} />
-              {c}
-            </button>
-          ))}
-        </div>
-
-        <label className="flex items-center gap-2 text-sm font-bold">
-          <input type="checkbox" checked={isNew} onChange={(e) => setIsNew(e.target.checked)} />
-          منتج جديد
-        </label>
-
-        {message && <p className="text-sm font-bold text-primary">{message}</p>}
-
-        <button type="submit" disabled={busy} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground disabled:opacity-60">
-          {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />} إضافة المنتج
-        </button>
-      </form>
-
-      <h2 className="mt-10 font-heading text-xl font-bold">منتجات الكتالوج ({list.length})</h2>
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {list.map((p) => (
-          <div key={p.code} className="flex items-center gap-3 rounded-2xl bg-card p-3 ring-1 ring-border">
-            <img src={p.image} alt={p.name} className="h-16 w-16 rounded-xl object-cover" loading="lazy" />
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-bold">{p.name}</p>
-              <p className="text-xs text-muted-foreground" dir="ltr">{p.code}</p>
-            </div>
-            <button type="button" onClick={() => remove(p)} disabled={busy} className="rounded-full p-2 text-destructive hover:bg-destructive/10" aria-label="حذف">
-              <Trash2 className="h-4 w-4" />
-            </button>
-          </div>
-        ))}
+      <div className="mt-8">
+        {tab === "products" && <ProductsPanel />}
+        {tab === "texts" && <TextsPanel />}
+        {tab === "images" && <ImagesPanel />}
+        {tab === "taxonomy" && <TaxonomyPanel />}
       </div>
-
-      {hidden.length > 0 && (
-        <>
-          <h2 className="mt-10 font-heading text-xl font-bold">منتجات محذوفة ({hidden.length})</h2>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {hidden.map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => restore(c)}
-                className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-bold hover:bg-muted"
-              >
-                <RotateCcw className="h-3.5 w-3.5" />
-                {staticProducts.find((p) => p.code === c)?.name ?? c}
-              </button>
-            ))}
-          </div>
-        </>
-      )}
-        </>
-      )}
     </div>
   );
 }
