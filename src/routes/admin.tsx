@@ -6,6 +6,8 @@ import { TextsPanel } from "@/components/admin/TextsPanel";
 import { ImagesPanel } from "@/components/admin/ImagesPanel";
 import { TaxonomyPanel } from "@/components/admin/TaxonomyPanel";
 import { ProductsPanel } from "@/components/admin/ProductsPanel";
+import { SocialPanel } from "@/components/admin/SocialPanel";
+
 
 export const Route = createFileRoute("/admin")({
   ssr: false,
@@ -123,14 +125,16 @@ function LoginCard({ onDone }: { onDone: () => Promise<void> }) {
   );
 }
 
-type Tab = "products" | "texts" | "images" | "taxonomy";
+type Tab = "products" | "texts" | "images" | "taxonomy" | "social";
 
 const tabs: { id: Tab; label: string }[] = [
   { id: "products", label: "المنتجات" },
   { id: "texts", label: "نصوص الموقع" },
   { id: "images", label: "صور الموقع" },
   { id: "taxonomy", label: "الأقسام والتصنيفات" },
+  { id: "social", label: "السوشيال ميديا" },
 ];
+
 
 function Dashboard({ onSignOut }: { onSignOut: () => Promise<void> }) {
   const [tab, setTab] = useState<Tab>("products");
@@ -175,6 +179,8 @@ function Dashboard({ onSignOut }: { onSignOut: () => Promise<void> }) {
         {tab === "texts" && <TextsPanel />}
         {tab === "images" && <ImagesPanel />}
         {tab === "taxonomy" && <TaxonomyPanel />}
+        {tab === "social" && <SocialPanel />}
+
       </div>
     </div>
   );

@@ -355,15 +355,7 @@ const dict = {
   ],
 
   "social.title": ["تابعنا على", "Follow us"],
-  "social.facebook": [
-    "https://www.facebook.com/jojostore",
-    "https://www.facebook.com/jojostore",
-  ],
-  "social.instagram": [
-    "https://www.instagram.com/jojostore",
-    "https://www.instagram.com/jojostore",
-  ],
-  "social.telegram": ["https://t.me/jojostore", "https://t.me/jojostore"],
+
 
 
 
