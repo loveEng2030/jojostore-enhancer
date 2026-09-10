@@ -179,6 +179,8 @@ function Dashboard({ onSignOut }: { onSignOut: () => Promise<void> }) {
         {tab === "texts" && <TextsPanel />}
         {tab === "images" && <ImagesPanel />}
         {tab === "taxonomy" && <TaxonomyPanel />}
+        {tab === "social" && <SocialPanel />}
+
       </div>
     </div>
   );
