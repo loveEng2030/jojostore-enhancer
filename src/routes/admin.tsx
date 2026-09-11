@@ -7,6 +7,7 @@ import { ImagesPanel } from "@/components/admin/ImagesPanel";
 import { TaxonomyPanel } from "@/components/admin/TaxonomyPanel";
 import { ProductsPanel } from "@/components/admin/ProductsPanel";
 import { SocialPanel } from "@/components/admin/SocialPanel";
+import { RequestsPanel } from "@/components/admin/RequestsPanel";
 
 
 export const Route = createFileRoute("/admin")({
