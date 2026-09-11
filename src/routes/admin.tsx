@@ -125,9 +125,16 @@ function LoginCard({ onDone }: { onDone: () => Promise<void> }) {
   );
 }
 
-type Tab = "products" | "texts" | "images" | "taxonomy" | "social";
+type Tab =
+  | "requests"
+  | "products"
+  | "texts"
+  | "images"
+  | "taxonomy"
+  | "social";
 
 const tabs: { id: Tab; label: string }[] = [
+  { id: "requests", label: "طلبات التجار" },
   { id: "products", label: "المنتجات" },
   { id: "texts", label: "نصوص الموقع" },
   { id: "images", label: "صور الموقع" },
