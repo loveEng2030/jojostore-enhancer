@@ -145,7 +145,7 @@ const tabs: { id: Tab; label: string }[] = [
 
 
 function Dashboard({ onSignOut }: { onSignOut: () => Promise<void> }) {
-  const [tab, setTab] = useState<Tab>("products");
+  const [tab, setTab] = useState<Tab>("requests");
 
   const signOut = async () => {
     await supabase.auth.signOut();
