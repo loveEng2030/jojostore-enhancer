@@ -7,6 +7,7 @@ import { ImagesPanel } from "@/components/admin/ImagesPanel";
 import { TaxonomyPanel } from "@/components/admin/TaxonomyPanel";
 import { ProductsPanel } from "@/components/admin/ProductsPanel";
 import { SocialPanel } from "@/components/admin/SocialPanel";
+import { RequestsPanel } from "@/components/admin/RequestsPanel";
 
 
 export const Route = createFileRoute("/admin")({
@@ -125,9 +126,16 @@ function LoginCard({ onDone }: { onDone: () => Promise<void> }) {
   );
 }
 
-type Tab = "products" | "texts" | "images" | "taxonomy" | "social";
+type Tab =
+  | "requests"
+  | "products"
+  | "texts"
+  | "images"
+  | "taxonomy"
+  | "social";
 
 const tabs: { id: Tab; label: string }[] = [
+  { id: "requests", label: "طلبات التجار" },
   { id: "products", label: "المنتجات" },
   { id: "texts", label: "نصوص الموقع" },
   { id: "images", label: "صور الموقع" },
@@ -137,7 +145,7 @@ const tabs: { id: Tab; label: string }[] = [
 
 
 function Dashboard({ onSignOut }: { onSignOut: () => Promise<void> }) {
-  const [tab, setTab] = useState<Tab>("products");
+  const [tab, setTab] = useState<Tab>("requests");
 
   const signOut = async () => {
     await supabase.auth.signOut();
@@ -180,6 +188,7 @@ function Dashboard({ onSignOut }: { onSignOut: () => Promise<void> }) {
         {tab === "images" && <ImagesPanel />}
         {tab === "taxonomy" && <TaxonomyPanel />}
         {tab === "social" && <SocialPanel />}
+        {tab === "requests" && <RequestsPanel />}
 
       </div>
     </div>
