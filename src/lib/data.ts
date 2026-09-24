@@ -109,6 +109,7 @@ export interface Product {
   sizes: string[];
   image: string;
   colorImages?: Partial<Record<string, string>>;
+  specs?: string;
   isNew: boolean;
 }
 

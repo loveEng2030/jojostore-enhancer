@@ -47,6 +47,7 @@ export async function fetchCatalog(): Promise<CatalogProduct[]> {
     colorImages: (r.color_images ?? undefined) as
       | Partial<Record<string, string>>
       | undefined,
+    specs: r.specs ?? undefined,
     isNew: r.is_new,
   }));
 

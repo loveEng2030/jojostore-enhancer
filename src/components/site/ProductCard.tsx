@@ -80,6 +80,21 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
 
+        {product.specs && (
+          <ul className="space-y-1 rounded-xl bg-muted/50 p-3 text-xs leading-relaxed text-muted-foreground">
+            {product.specs
+              .split("\n")
+              .map((l) => l.trim())
+              .filter(Boolean)
+              .map((l, i) => (
+                <li key={i} className="flex gap-1.5">
+                  <span className="text-primary">•</span>
+                  {l}
+                </li>
+              ))}
+          </ul>
+        )}
+
         <div className="flex flex-wrap gap-1.5">
           {product.sizes.map((s) => (
             <span

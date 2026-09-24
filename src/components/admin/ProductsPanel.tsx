@@ -23,6 +23,7 @@ export function ProductsPanel() {
   const [categoryId, setCategoryId] = useState("");
   const [colors, setColors] = useState<string[]>([]);
   const [sizes, setSizes] = useState("");
+  const [specs, setSpecs] = useState("");
   const [isNew, setIsNew] = useState(true);
   const [file, setFile] = useState<File | null>(null);
   const [colorFiles, setColorFiles] = useState<Record<string, File>>({});
@@ -77,6 +78,7 @@ export function ProductsPanel() {
           .filter(Boolean),
         image_url: url,
         color_images: colorImages,
+        specs: specs.trim() || null,
         is_new: isNew,
       });
       if (insErr) throw insErr;
@@ -85,6 +87,7 @@ export function ProductsPanel() {
       setNameEn("");
       setColors([]);
       setSizes("");
+      setSpecs("");
       setFile(null);
       setColorFiles({});
       setMessage("تمت إضافة المنتج");
@@ -158,6 +161,13 @@ export function ProductsPanel() {
             accept="image/*"
             onChange={(e) => setFile(e.target.files?.[0] ?? null)}
             className="rounded-2xl border border-border bg-background px-4 py-2.5 text-sm"
+          />
+          <textarea
+            value={specs}
+            onChange={(e) => setSpecs(e.target.value)}
+            rows={4}
+            placeholder={"مواصفات المنتج (كل سطر ميزة)\nمثال: قطن 100%\nخامة ميلتون شتوي"}
+            className="rounded-2xl border border-border bg-background px-4 py-3 text-sm md:col-span-2"
           />
         </div>
 

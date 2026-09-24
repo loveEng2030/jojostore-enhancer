@@ -84,6 +84,7 @@ export type Database = {
           name: string
           name_en: string
           sizes: string[]
+          specs: string | null
         }
         Insert: {
           category_id?: string
@@ -97,6 +98,7 @@ export type Database = {
           name: string
           name_en?: string
           sizes?: string[]
+          specs?: string | null
         }
         Update: {
           category_id?: string
@@ -110,6 +112,7 @@ export type Database = {
           name?: string
           name_en?: string
           sizes?: string[]
+          specs?: string | null
         }
         Relationships: []
       }
