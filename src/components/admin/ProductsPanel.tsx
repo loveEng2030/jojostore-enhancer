@@ -25,6 +25,17 @@ export function ProductsPanel() {
   const [sizes, setSizes] = useState("");
   const [isNew, setIsNew] = useState(true);
   const [file, setFile] = useState<File | null>(null);
+  const [colorFiles, setColorFiles] = useState<Record<string, File>>({});
+
+  const uploadImage = async (f: File) => {
+    const ext = f.name.split(".").pop() ?? "jpg";
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const { error: upErr } = await supabase.storage
+      .from("product-images")
+      .upload(path, f, { cacheControl: "31536000" });
+    if (upErr) throw upErr;
+    return signedImageUrl(path);
+  };
 
   useEffect(() => {
     if (!categoryId && categories[0]) setCategoryId(categories[0].id);
@@ -48,13 +59,12 @@ export function ProductsPanel() {
     setBusy(true);
     setMessage("");
     try {
-      const ext = file.name.split(".").pop() ?? "jpg";
-      const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-      const { error: upErr } = await supabase.storage
-        .from("product-images")
-        .upload(path, file, { cacheControl: "31536000" });
-      if (upErr) throw upErr;
-      const url = await signedImageUrl(path);
+      const url = await uploadImage(file);
+      const colorImages: Record<string, string> = {};
+      for (const c of colors) {
+        const f = colorFiles[c];
+        colorImages[c] = f ? await uploadImage(f) : url;
+      }
       const { error: insErr } = await supabase.from("products").insert({
         code: code.trim(),
         name: name.trim(),
@@ -66,6 +76,7 @@ export function ProductsPanel() {
           .map((s) => s.trim())
           .filter(Boolean),
         image_url: url,
+        color_images: colorImages,
         is_new: isNew,
       });
       if (insErr) throw insErr;
@@ -75,6 +86,7 @@ export function ProductsPanel() {
       setColors([]);
       setSizes("");
       setFile(null);
+      setColorFiles({});
       setMessage("تمت إضافة المنتج");
       await reload();
     } catch {
@@ -155,9 +167,17 @@ export function ProductsPanel() {
               key={c}
               type="button"
               onClick={() =>
-                setColors((v) =>
-                  v.includes(c) ? v.filter((x) => x !== c) : [...v, c],
-                )
+                setColors((v) => {
+                  if (v.includes(c)) {
+                    setColorFiles((files) => {
+                      const next = { ...files };
+                      delete next[c];
+                      return next;
+                    });
+                    return v.filter((x) => x !== c);
+                  }
+                  return [...v, c];
+                })
               }
               className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold ${
                 colors.includes(c)
@@ -173,6 +193,41 @@ export function ProductsPanel() {
             </button>
           ))}
         </div>
+
+        {colors.length > 0 && (
+          <div className="space-y-2 rounded-2xl border border-border p-4">
+            <p className="text-sm font-bold">صورة لكل لون (اختياري)</p>
+            <p className="text-xs text-muted-foreground">
+              لو رفعت صورة للون، الزائر لما يضغط على اللون في الكتالوج الصورة
+              هتتغير للصورة دي. أي لون من غير صورة هيستخدم الصورة الأساسية.
+            </p>
+            {colors.map((c) => (
+              <div key={c} className="flex flex-wrap items-center gap-3">
+                <span className="flex min-w-28 items-center gap-2 text-xs font-bold">
+                  <span
+                    className="h-3.5 w-3.5 rounded-full ring-1 ring-border"
+                    style={{ backgroundColor: colorHex[c] ?? "#ddd" }}
+                  />
+                  {c}
+                </span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    setColorFiles((files) => {
+                      const next = { ...files };
+                      if (f) next[c] = f;
+                      else delete next[c];
+                      return next;
+                    });
+                  }}
+                  className="flex-1 rounded-2xl border border-border bg-background px-4 py-2.5 text-sm"
+                />
+              </div>
+            ))}
+          </div>
+        )}
 
         <label className="flex items-center gap-2 text-sm font-bold">
           <input

@@ -75,6 +75,7 @@ export type Database = {
         Row: {
           category_id: string
           code: string
+          color_images: Json | null
           colors: string[]
           created_at: string
           id: string
@@ -87,6 +88,7 @@ export type Database = {
         Insert: {
           category_id?: string
           code: string
+          color_images?: Json | null
           colors?: string[]
           created_at?: string
           id?: string
@@ -99,6 +101,7 @@ export type Database = {
         Update: {
           category_id?: string
           code?: string
+          color_images?: Json | null
           colors?: string[]
           created_at?: string
           id?: string
